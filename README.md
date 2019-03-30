@@ -40,7 +40,8 @@ fatfsimage -l5 img.ffat 3004 datadir/
 esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash  0x111000 img.ffat
 ```
 
-4) upload and run the arduiono/ffat code to verify the partition list and get a file listing.
+4) upload and run the arduino/ffat code to verify the partition list and get a file listing.
+https://github.com/marcmerlin/esp32_fatfsimage/blob/master/arduino/ffat/ffat.ino
 ```
 partiton addr: 0x010000; size: 0x100000; label: app0
 partiton addr: 0x009000; size: 0x005000; label: nvs
