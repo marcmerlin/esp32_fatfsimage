@@ -1,4 +1,44 @@
-# FATFS image creation for ESP32
+# FATFS on ESP32
+
+ESP32 allows you to use part of the flash to store a filesystem. Initially, it
+has been used for SPIFFS (a compressed read only filesystem). You can read more about it here:
+https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/storage/spiffs.html
+
+Spiffs has issues though, on top of being read only of course, it's pretty bad at doing
+seeks across large files (it's slow), and another filesystem like Fat, works better.
+This is where FFat(Flash Fat) comes in.
+
+You can see how to use FatFS from this example:
+https://github.com/espressif/arduino-esp32/blob/master/libraries/FFat/examples/FFat_Test/FFat_Test.ino
+but it assumes that you are creating your files on the device you can begin(true) to format
+the filesystem.
+
+If you want to create the filesystem on your computer and send it to your ESP32 (in
+my case I have a big collection of Animated Gifs I want to serve), you follow these steps:
+
+1) reformat your ESP32 to have a FatFS partition. You'll probably need this in your tree: 
+https://github.com/espressif/arduino-esp32/pull/2623/files
+or you can simply git clone https://github.com/marcmerlin/arduino-esp32 which has the change you need
+
+2) create the fatfs image on linux (or you have to make the code here work and build for your OS).
+Thanks to lbernstone for building a binary:
+```
+# replace 3004 with the size of your partition. In the 1/3MB split, the fatfs partition is 
+# 0x2EF000 = 3076096 .  3076096/1024 = 3004
+fatfsimage -l5 img.ffat 3004 datadir/
+```
+
+3) upload the image at the right offset (0x111000 for the 1/3MB split)
+```
+esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash  0x111000 img.ffat
+```
+
+4) upload and run the arduiono/ffat code to verify the partition list and get a file listing.
+
+
+Original project README listed below in case you need to (re)build fatfsimage
+
+## fatfsimage
 A utility to create and populate FATFS image files on the host that can then
 be flashed to the ESP32.
 
