@@ -1,5 +1,6 @@
 # FATFS on ESP32
 
+## FatFS on ESP32 Howto:
 ESP32 allows you to use part of the flash to store a filesystem. Initially, it
 has been used for SPIFFS (a compressed read only filesystem). You can read more about it here:
 https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/storage/spiffs.html
@@ -20,6 +21,12 @@ my case I have a big collection of Animated Gifs I want to serve), you follow th
 https://github.com/espressif/arduino-esp32/pull/2623/files
 or you can simply git clone https://github.com/marcmerlin/arduino-esp32 which has the change you need
 
+You will need to pay attention to the last line for both the offset (which you copy as is 
+in esptool) and the size, which you need to convert to decimal and divide by 1024 for KB: https://github.com/espressif/arduino-esp32/blob/170d204566bbee414f4059db99168974c69d166e/tools/partitions/noota_3gffat.csv
+```
+ffat,     data, fat,     0x111000,0x2EF000,
+```
+
 2) create the fatfs image on linux (or you have to make the code here work and build for your OS).
 Thanks to lbernstone for building a binary:
 ```
@@ -34,6 +41,22 @@ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash  0x111000 
 ```
 
 4) upload and run the arduiono/ffat code to verify the partition list and get a file listing.
+```
+partiton addr: 0x010000; size: 0x100000; label: app0
+partiton addr: 0x009000; size: 0x005000; label: nvs
+partiton addr: 0x00e000; size: 0x002000; label: otadata
+partiton addr: 0x110000; size: 0x001000; label: eeprom
+partiton addr: 0x111000; size: 0x2ef000; label: ffat
+
+Trying to mount ffat partition if present
+File system mounted
+Total space:    3018752
+Free space:     1429504
+Listing directory: /gifs64
+  FILE: /gifs64/ani-bman-BW.gif	SIZE: 4061
+  FILE: /gifs64/087_net.gif	SIZE: 46200
+(...)
+```
 
 
 Original project README listed below in case you need to (re)build fatfsimage
