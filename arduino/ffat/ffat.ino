@@ -12,7 +12,7 @@ void partloop(esp_partition_type_t part_type) {
   while (iterator) {
      next_partition = esp_partition_get(iterator);
      if (next_partition != NULL) {
-        Serial.printf("partiton addr: 0x%06x; size: 0x%06x; label: %s\n", next_partition->address, next_partition->size, next_partition->label);  
+        Serial.printf("partition addr: 0x%06x; size: 0x%06x; label: %s\n", next_partition->address, next_partition->size, next_partition->label);  
      iterator = esp_partition_next(iterator);
     }
   }
