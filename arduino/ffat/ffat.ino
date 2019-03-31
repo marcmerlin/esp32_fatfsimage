@@ -67,7 +67,7 @@ void setup(){
     Serial.println("File system mounted");
     Serial.printf("Total space: %10lu\n", FFat.totalBytes());
     Serial.printf("Free space:  %10lu\n\n", FFat.freeBytes());
-    listDir(FFat, "/gifs64", 5);
+    listDir(FFat, "/", 5);
 }
  
 void loop(){}
