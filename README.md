@@ -43,11 +43,11 @@ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash  0x111000 
 4) upload and run the arduino/ffat code to verify the partition list and get a file listing.
 https://github.com/marcmerlin/esp32_fatfsimage/blob/master/arduino/ffat/ffat.ino
 ```
-partiton addr: 0x010000; size: 0x100000; label: app0
-partiton addr: 0x009000; size: 0x005000; label: nvs
-partiton addr: 0x00e000; size: 0x002000; label: otadata
-partiton addr: 0x110000; size: 0x001000; label: eeprom
-partiton addr: 0x111000; size: 0x2ef000; label: ffat
+partition addr: 0x010000; size: 0x100000; label: app0
+partition addr: 0x009000; size: 0x005000; label: nvs
+partition addr: 0x00e000; size: 0x002000; label: otadata
+partition addr: 0x110000; size: 0x001000; label: eeprom
+partition addr: 0x111000; size: 0x2ef000; label: ffat
 
 Trying to mount ffat partition if present
 File system mounted
