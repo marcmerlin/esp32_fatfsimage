@@ -45,6 +45,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
             Serial.print("\tSIZE: ");
             Serial.println(file.size());
         }
+	file.close();
         file = root.openNextFile();
     }
 }
@@ -59,7 +60,8 @@ void setup(){
 
     Serial.println("\n\nTrying to mount ffat partition if present");
  
-    if(!FFat.begin()){
+    // Only allow one file to be open at a time instead of 10, saving 9x4 - 36KB of RAM
+    if(!FFat.begin( 0, "", 1 )){
         Serial.println("FFat Mount Failed");
         return;
     }
