@@ -59,6 +59,12 @@ Listing directory: /gifs64
 (...)
 ```
 
+5) memory use
+The FFAT module uses 8KB plus 4KB per concurrent file that can be opened. By default, it allows 10 files to be opened, which means it uses 48KB. IF you want to reduce its memory use, you can tell it to only support one file, and you will save 36KB, leaving you with only 12KB used.
+```
+if (!FFat.begin(0, "", 1)) die("Fat FS mount failed. Not enough RAM?");
+```
+
 
 Original project README listed below in case you need to (re)build fatfsimage
 
