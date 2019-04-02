@@ -17,7 +17,8 @@ the filesystem.
 If you want to create the filesystem on your computer and send it to your ESP32 (in
 my case I have a big collection of Animated Gifs I want to serve), you follow these steps:
 
-1) reformat your ESP32 to have a FatFS partition. You'll probably need this in your tree: 
+### Create a FFAT partition on ESP32
+reformat your ESP32 to have a FatFS partition. You'll probably need this in your tree: 
 https://github.com/espressif/arduino-esp32/pull/2623/files
 or you can simply git clone https://github.com/marcmerlin/arduino-esp32 which has the change you need
 
@@ -27,7 +28,8 @@ in esptool) and the size, which you need to convert to decimal and divide by 102
 ffat,     data, fat,     0x111000,0x2EF000,
 ```
 
-2) create the fatfs image on linux (or you have to make the code here work and build for your OS).
+### Create a FatFS image
+To create the fatfs image on linux (or you have to make the code here work and build for your OS).
 Thanks to lbernstone for building a binary:
 ```
 # replace 3004 with the size of your partition. In the 1/3MB split, the fatfs partition is 
@@ -35,12 +37,14 @@ Thanks to lbernstone for building a binary:
 fatfsimage -l5 img.ffat 3004 datadir/
 ```
 
-3) upload the image at the right offset (0x111000 for the 1/3MB split)
+### Upload the FatFS image to your ESP32
+To upload the image at the right offset (0x111000 for the 1/3MB split)
 ```
 esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash  0x111000 img.ffat
 ```
 
-4) upload and run the arduino/ffat code to verify the partition list and get a file listing.
+### FFat test code.
+upload and run the arduino/ffat code to verify the partition list and get a file listing.
 https://github.com/marcmerlin/esp32_fatfsimage/blob/master/arduino/ffat/ffat.ino
 ```
 partition addr: 0x010000; size: 0x100000; label: app0
@@ -59,7 +63,7 @@ Listing directory: /gifs64
 (...)
 ```
 
-5) memory use
+### Memory use
 The FFAT module uses 8KB plus 4KB per concurrent file that can be opened. By default, it allows 10 files to be opened, which means it uses 48KB. IF you want to reduce its memory use, you can tell it to only support one file, and you will save 36KB, leaving you with only 12KB used.
 ```
 if (!FFat.begin(0, "", 1)) die("Fat FS mount failed. Not enough RAM?");
