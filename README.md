@@ -1,5 +1,7 @@
 # FATFS on ESP32
 
+Blog post: http://marc.merlins.org/perso/arduino/post_2019-03-30_Using-FatFS-FFat-on-ESP32-Flash-With-Arduino.html
+
 ## FatFS on ESP32 Howto:
 ESP32 allows you to use part of the flash to store a filesystem. Initially, it
 has been used for SPIFFS (a compressed read only filesystem). You can read more about it here:
