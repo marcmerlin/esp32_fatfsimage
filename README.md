@@ -1,6 +1,11 @@
 # FATFS on ESP32
 
+This page is to help you setup a ffat image on your computer and upload it to your ESP32  
 Blog post: http://marc.merlins.org/perso/arduino/post_2019-03-30_Using-FatFS-FFat-on-ESP32-Flash-With-Arduino.html
+If you're happy formatting FFAT and creating files directly from ESP32 code, you can look at those pages too:
+- https://www.dfrobot.com/blog-1179.html
+- https://techtutorialsx.com/2018/10/06/esp32-arduino-fat-file-system/
+
 
 ## FatFS on ESP32 Howto:
 ESP32 allows you to use part of the flash to store a filesystem. Initially, it
