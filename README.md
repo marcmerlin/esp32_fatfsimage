@@ -34,6 +34,10 @@ in esptool) and the size, which you need to convert to decimal and divide by 102
 ```
 ffat,     data, fat,     0x111000,0x2EF000,
 ```
+actually the eeprom partition was removed in newer versions of esp32-arduino, so now it should be:
+```
+ffat,     data, fat,     0x110000,0x2F0000
+```
 
 ### Create a FatFS image
 To create the fatfs image on linux (or you have to make the code here work and build for your OS).
@@ -42,12 +46,16 @@ Thanks to lbernstone for building a binary:
 # replace 3004 with the size of your partition. In the 1/3MB split, the fatfs partition is 
 # 0x2EF000 = 3076096 .  3076096/1024 = 3004
 fatfsimage -l5 img.ffat 3004 datadir/
+# with newer esp32-arduino, it's now 0x2F0000 = 3080192. 3080192/1024 = 3008
+fatfsimage -l5 img.ffat 3008 datadir/
 ```
 
 ### Upload the FatFS image to your ESP32
 To upload the image at the right offset (0x111000 for the 1/3MB split)
 ```
 esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash  0x111000 img.ffat
+or with newer esp32-arduino:
+esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 921600 write_flash  0x110000 img.ffat
 ```
 
 ### FFat test code.
