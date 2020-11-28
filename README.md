@@ -14,7 +14,9 @@ https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/storage/spif
 
 Spiffs has issues though, on top of being read only of course, it's pretty bad at doing
 seeks across large files (it's slow), and another filesystem like Fat, works better.
-This is where FFat(Flash Fat) comes in.
+This is where FFat(Flash Fat) comes in.  
+As of 2020 there is now also LittleFS. I have not used it, but I assume it's a better version
+of SPIFFS that doesn't take as much RAM as FatFS
 
 You can see how to use FatFS from this example:
 https://github.com/espressif/arduino-esp32/blob/master/libraries/FFat/examples/FFat_Test/FFat_Test.ino
@@ -23,6 +25,20 @@ the filesystem.
 
 If you want to create the filesystem on your computer and send it to your ESP32 (in
 my case I have a big collection of Animated Gifs I want to serve), you follow these steps:
+
+
+## This code is mostly obsolete Use arduino-esp32fs-plugin instead
+
+If you are on linux, you may still be happy with the instructions below, but after I wrote all this, 
+a better solution came up: https://github.com/lorol/arduino-esp32fs-plugin
+I recommend you install this instead and then grab a mkfatfs binary (it's a bit of a pain to build) from:
+- https://github.com/labplus-cn/mkfatfs/releases/tag/v2.0.1
+- https://github.com/labplus-cn/mkfatfs/releases/tag/v1.0  
+and grab esp32fs.jar from https://github.com/lorol/arduino-esp32fs-plugin/releases
+
+But if you'd like to create your FatFS image from a makefile and upload it via esptool, then my 
+branch does this, read on.
+
 
 ### Create a FFAT partition on ESP32
 reformat your ESP32 to have a FatFS partition. You'll probably need this in your tree: 
